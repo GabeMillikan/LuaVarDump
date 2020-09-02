@@ -11,13 +11,15 @@ function Util:print(tab, tables, depth, outputString)
 	end
 	tables[tab] = true
 	
-	outputString = outputString .. string.rep("    ", depth) .. "{ -- " .. tostring(tab) .. "\n"
+	outputString = outputString .. "{ -- " .. tostring(tab) .. "\n"
 	for key, value in pairs(tab) do
-		outputString = outputString .. string.rep("    ", depth + 1) .. tostring(key) .. " = "
+		outputString = outputString .. string.rep("  ", depth + 1) .. (type(key) == "number" and ("[" .. key .. "]") or tostring(key)) .. " = "
 		if type(value) == "table" then
 			outputString = self:print(value, tables, depth + 1, outputString)
 		elseif type(value) == "string" then
 			outputString = outputString .. '"' .. value .. '",'
+		elseif typeof(value) == "Instance" then
+			outputString = outputString .. value:GetFullName() .. ','
 		else
 			outputString = outputString .. tostring(value) .. ","
 		end
