@@ -7,7 +7,7 @@ function Util:print(tab, tables, depth, outputString)
 	depth = depth or 0
 	outputString = outputString or ""
 	if tables[tab] then
-		return outputString .. " -- repitition of " .. tostring(tab)
+		return outputString .. "nil, -- repitition of " .. tostring(tab)
 	end
 	tables[tab] = true
 	
@@ -17,9 +17,9 @@ function Util:print(tab, tables, depth, outputString)
 		if type(value) == "table" then
 			outputString = self:print(value, tables, depth + 1, outputString)
 		elseif type(value) == "string" then
-			outputString = outputString .. '"' .. value .. '"'
+			outputString = outputString .. '"' .. value .. '",'
 		else
-			outputString = outputString .. tostring(value)
+			outputString = outputString .. tostring(value) .. ","
 		end
 		outputString = outputString .. "\n"
 	end
