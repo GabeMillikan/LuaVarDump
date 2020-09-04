@@ -7,7 +7,7 @@ function Util:print(tab, tables, depth, outputString)
 	depth = depth or 0
 	outputString = outputString or ""
 	if tables[tab] then
-		return outputString .. "nil, -- repitition of " .. tostring(tab)
+		return outputString .. "{ --[[ repitition of " .. tostring(tab) .. " ]] },"
 	end
 	tables[tab] = true
 	
@@ -15,11 +15,11 @@ function Util:print(tab, tables, depth, outputString)
 	for key, value in pairs(tab) do
 		outputString = outputString .. string.rep("  ", depth + 1) .. (type(key) == "number" and ("[" .. key .. "]") or tostring(key)) .. " = "
 		if type(value) == "table" then
-			outputString = self:print(value, tables, depth + 1, outputString)
+			outputString = Util:print(value, tables, depth + 1, outputString)
 		elseif type(value) == "string" then
 			outputString = outputString .. '"' .. value .. '",'
-		elseif typeof(value) == "Instance" then
-			outputString = outputString .. value:GetFullName() .. ','
+		elseif type(value) == "function" then
+			outputString = outputString .. 'function(...) --[[ ' .. tostring(value) .. ' ]] end,'
 		else
 			outputString = outputString .. tostring(value) .. ","
 		end
@@ -28,7 +28,7 @@ function Util:print(tab, tables, depth, outputString)
 	outputString = outputString .. string.rep("  ", depth) .. "}"
 	
 	if depth > 0 then
-		return outputString
+		return outputString .. ","
 	else
 		print(outputString)
 	end
