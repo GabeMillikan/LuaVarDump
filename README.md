@@ -3,6 +3,7 @@ Print tables, but they're nicely formatted
 
 
 # Usage
+```
 myTable = {
   "Hello",
   x = 5,
@@ -13,3 +14,4 @@ myTable = {
 }
 myTable.y.recursive = myTable
 Util:print(myTable)
+```
